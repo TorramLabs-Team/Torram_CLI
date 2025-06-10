@@ -386,7 +386,6 @@ torramd query tsb recent-transfers --node tcp://34.57.91.248:26657
 
 **Getting Help:**
 - **Telegram**: @torrambuilders
-- **GitHub**: Example stablecoin contract
 - **Explorer**: [Torram Explorer](https://www.torramexplorer.xyz/)
 
 ---
