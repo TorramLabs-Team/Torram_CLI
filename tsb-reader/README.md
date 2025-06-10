@@ -1,6 +1,6 @@
 # TSB Reader Contract
 
-CosmWasm contract for reading TSB (Token Sync Bridge) data.
+CosmWasm contract for reading TSB (Token Sync) data.
 
 ## Query Examples
 
