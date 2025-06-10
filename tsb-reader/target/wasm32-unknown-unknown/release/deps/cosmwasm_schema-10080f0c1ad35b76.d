@@ -1,0 +1,10 @@
+/home/charles/Chain/TorramChain/examples/tsb-reader/target/wasm32-unknown-unknown/release/deps/libcosmwasm_schema-10080f0c1ad35b76.rmeta: /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/lib.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/casing.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/export.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/remove.rs
+
+/home/charles/Chain/TorramChain/examples/tsb-reader/target/wasm32-unknown-unknown/release/deps/libcosmwasm_schema-10080f0c1ad35b76.rlib: /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/lib.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/casing.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/export.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/remove.rs
+
+/home/charles/Chain/TorramChain/examples/tsb-reader/target/wasm32-unknown-unknown/release/deps/cosmwasm_schema-10080f0c1ad35b76.d: /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/lib.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/casing.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/export.rs /home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/remove.rs
+
+/home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/lib.rs:
+/home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/casing.rs:
+/home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/export.rs:
+/home/charles/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/cosmwasm-schema-0.16.7/src/remove.rs:
