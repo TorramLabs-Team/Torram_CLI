@@ -1,4 +1,4 @@
-# Stablecoin Oracle Reader
+# Oracle Reader Contract
 
 This CosmWasm smart contract implements a stablecoin oracle price registry where only the admin can update on-chain price data. Prices are supplied explicitly via execution, and the contract emits USDC, USDT, and DAI values along with their average. It also includes a query mechanism to fetch price data from an external custom oracle using a Stargate-compatible query interface.
 
