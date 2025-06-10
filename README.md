@@ -17,6 +17,57 @@ Build DApps that combine CosmWasm smart contracts with Bitcoin-secured tokens th
 
 ---
 
+## 📊 Oracle Price Data
+
+**Torram's built-in oracle provides real-time price feeds for cryptocurrency and real-world assets (RWAs).**
+
+### **Supported Cryptocurrency Prices**
+
+Access live prices for these 19 cryptocurrencies:
+
+| Crypto | Full Name        |
+|--------|------------------|
+| BTC    | Bitcoin          |
+| ETH    | Ethereum         |
+| USDT   | Tether           |
+| USDC   | USD Coin         |
+| SOL    | Solana           |
+| DOGE   | Dogecoin         |
+| BNB    | Binance Chain    |
+| NEAR   | Near Protocol    |
+| DAI    | Dai              |
+| UNI    | Uniswap          |
+| TON    | Toncoin          |
+| ADA    | Cardano          |
+| OM     | Mantra           |
+| ONDO   | Ondo Finance     |
+| TRX    | Tron             |
+| AVAX   | Avalanche        |
+| AAVE   | Aave             |
+| STX    | Stacks           |
+| XLM    | Stellar          |
+
+### **Supported Real-World Asset (RWA) Prices**
+
+Access traditional financial market data for these 12 assets:
+
+| RWAs   | Full Name                             |
+|--------|---------------------------------------|
+| DJI    | Dow Jones Industrial Average          |
+| BAI    | Blackrock AI Innovation and Tech      |
+| FTBFX  | Fidelity Total Bond Fund              |
+| FVX    | 5-Year Treasury Yield                 |
+| NDAQ   | Nasdaq Composite                      |
+| QQQ    | Invesco QQQ                           |
+| RUT    | Russell 2000 Index                    |
+| SPX    | S&P 500 Index                         |
+| TNX    | 10-Year Treasury Yield                |
+| TYX    | 30-Year Treasury Yield                |
+| VGT    | Vanguard Information Technology       |
+| VIX    | Volatility Index                      |
+
+---
+
 ## 🛠️ Development Workflow
 
 ### **Step 1: Create Your TSB Token**
