@@ -1,0 +1,14 @@
+[build]
+rustflags = [
+  "-C", "link-arg=-s",
+  "-C", "link-arg=-zstack-size=32768",
+]
+
+[target.wasm32-unknown-unknown]
+rustflags = [
+  "-C", "link-arg=-s",
+  "-C", "link-arg=-zstack-size=32768",
+  "-C", "link-arg=--no-entry",
+  "-C", "link-arg=--import-memory",
+  "-C", "link-arg=--export-table",
+] 
