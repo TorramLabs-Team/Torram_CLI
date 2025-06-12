@@ -1,14 +1,14 @@
 # Torram Network - Bitcoin Testnet 3 Documentation
 ## Smart Contracts with Bitcoin-Native TSB Tokens
 
-Build DApps that combine CosmWasm smart contracts with Bitcoin-secured tokens through event-driven automation.
+Build DApps that combine [CosmWasm](https://cosmwasm.com/) smart contracts with Bitcoin-secured tokens through event-driven automation.
 
 ---
 
 ## 🚀 What Torram Provides
 
 **Torram Network** gives you:
-- **CosmWasm Smart Contracts** - Deploy Rust-based contracts 
+- **[CosmWasm](https://cosmwasm.com/) Smart Contracts** - Deploy Rust-based contracts 
 - **TSB Token Standard** - Bitcoin-native tokens secured by Taproot scripts
 - **Built-in TSB Commands** - Create and transfer tokens directly through Torram CLI
 - **Built-in Oracle** - Access 30+ crypto and RWA prices through our in built oracle. For example: Bitcoin, S&P500, etc
@@ -387,5 +387,5 @@ torramd query tsb recent-transfers --node tcp://34.57.91.248:26657
 **Getting Help:**
 - **Telegram**: @torrambuilders
 - **Explorer**: [Torram Explorer](https://www.torramexplorer.xyz/)
-
+- **CosmWasm**: [CosmWasm](https://cosmwasm.com/)
 ---
