@@ -17,6 +17,12 @@ Build DApps that combine [CosmWasm](https://cosmwasm.com/) smart contracts with 
 
 ---
 
+## 💻 System Requirements
+**Currently Supported Platform:**
+  Ubuntu Only - Torram CLI and tools are currently supported on Ubuntu systems only
+  
+---
+
 ## 📊 Oracle Price Data
 
 **Torram's built-in oracle provides real-time price feeds for cryptocurrency and real-world assets (RWAs).**
