@@ -18,8 +18,9 @@ Build DApps that combine [CosmWasm](https://cosmwasm.com/) smart contracts with 
 ---
 
 ## 💻 System Requirements
-### **Currently Supported Platform**
-Ubuntu Only - Torram CLI and tools are currently supported on Ubuntu systems only
+### **Platform Support**
+- Ubuntu Linux - Torram CLI and development tools are optimized for Ubuntu distributions
+- Other Platforms - Support for additional operating systems is planned for future releases
 
 ---
 
