@@ -77,18 +77,46 @@ Access traditional financial market data for these 12 assets:
 
 ## 🛠️ Development Workflow
 
+### **Step 0: Setup Your Wallet**
+
+Before you can interact with Torram, you need to create a wallet and get it funded:
+
+```bash
+# Create a new wallet (replace 'my-key' with your preferred name)
+./torramd keys add my-key --keyring-backend test
+
+# View your wallet address
+./torramd keys show my-key -a --keyring-backend test
+
+# View your wallet details (including mnemonic for backup)
+./torramd keys show my-key --keyring-backend test
+```
+
+**Important:** Save your mnemonic phrase securely! You'll need it to recover your wallet.
+
+**Get Testnet Funding:**
+1. Copy your wallet address from the command above
+2. Join the Torram Telegram: @torrambuilders
+3. Request testnet tokens by sharing your address
+
+**Check your balance:**
+```bash
+# Check your TORRAM token balance
+./torramd query bank balances $(./torramd keys show my-key -a --keyring-backend test) --node tcp://34.57.91.248:26657
+```
+
 ### **Step 1: Create Your TSB Token**
 
 First, create a Bitcoin-secured token using Torram's built-in TSB functionality:
 
 ```bash
-# Create your token on Bitcoin via Torram
-torramd tx tsb create-token \
+# Create your token on Bitcoin via Torram (replace 'my-key' with your wallet name)
+./torramd tx tsb create-token \
   --token-id="MYTOKEN" \
   --amount=1000000 \
   --type-code=0 \
   --metadata='{"name":"MYTOKEN","symbol":"MYTOKEN","decimals":6,"description":"My DApp Token"}' \
-  --from=your-key \
+  --from=my-key \
   --keyring-backend=test \
   --chain-id=torram \
   --gas=auto \
@@ -105,11 +133,11 @@ torramd tx tsb create-token \
 
 **Check your token:**
 ```bash
-# Verify token creation
-torramd query tsb token-balance --token-id MYTOKEN --owner $(torramd keys show your-key -a) --node tcp://34.57.91.248:26657
+# Verify token creation (replace 'my-key' with your wallet name)
+./torramd query tsb token-balance --token-id MYTOKEN --owner $(./torramd keys show my-key -a --keyring-backend test) --node tcp://34.57.91.248:26657
 
-# Check token balances
-torramd query tsb token-balance --token-id MYTOKEN --owner your-torram-address --node tcp://34.57.91.248:26657
+# Check token balances with specific address
+./torramd query tsb token-balance --token-id MYTOKEN --owner your-torram-address --node tcp://34.57.91.248:26657
 ```
 
 ### **Step 2: Create Your Smart Contract**
@@ -117,30 +145,46 @@ torramd query tsb token-balance --token-id MYTOKEN --owner your-torram-address -
 Deploy your CosmWasm contract that will emit events for token operations:
 
 ```bash
-# Store your contract code
-torramd tx wasm store contract.wasm \
-  --from your-key \
+# Store your contract code (replace 'my-key' with your wallet name)
+# Use async mode for reliable deployment
+./torramd tx wasm store contract.wasm \
+  --from my-key \
   --keyring-backend test \
   --chain-id torram \
-  --gas auto \
-  --gas-adjustment 1.3 \
+  --gas 3000000 \
   --fees 1000torram \
   --node tcp://34.57.91.248:26657 \
-  --broadcast-mode sync
+  --home /home/gobishanthan/.torramd \
+  --sign-mode amino-json \
+  --broadcast-mode async \
+  -y
 
-# Instantiate your contract
-torramd tx wasm instantiate 1 \
-  '{"token_name":"MYTOKEN","initial_config":"your-config"}' \
-  --from your-key \
+# Check deployment status
+./torramd query tx TRANSACTION_HASH --node tcp://34.57.91.248:26657
+
+# List all codes to find your CODE_ID
+./torramd query wasm list-code --node tcp://34.57.91.248:26657
+
+# Instantiate your contract (replace CODE_ID with actual ID from above)
+# Note: Check error messages to see what fields your contract requires
+./torramd tx wasm instantiate CODE_ID \
+  '{"admin":"your-address"}' \
+  --from my-key \
   --keyring-backend test \
   --chain-id torram \
-  --label "My DApp Contract" \
+  --label "My Contract" \
   --no-admin \
   --gas auto \
   --gas-adjustment 1.3 \
   --fees 1000torram \
   --node tcp://34.57.91.248:26657 \
-  --broadcast-mode sync
+  --home /home/gobishanthan/.torramd \
+  --sign-mode amino-json \
+  --broadcast-mode async \
+  -y
+
+# Get your contract address
+./torramd query wasm list-contract-by-code CODE_ID --node tcp://34.57.91.248:26657
 ```
 
 **Your contract should emit events when TSB transfers are needed:**
@@ -177,7 +221,7 @@ Subscribe to: wasm.contract_address='your_contract' AND wasm.action='tsb_transfe
 **CLI Command Your Server Executes:**
 ```bash
 # When your server sees a transfer event, it runs:
-torramd tx tsb transfer-token MYTOKEN recipient-address amount \
+./torramd tx tsb transfer-token MYTOKEN recipient-address amount \
   --from server-key \
   --chain-id torram \
   --node tcp://34.57.91.248:26657 \
@@ -199,13 +243,14 @@ Your server reports Bitcoin transaction completion back to your contract:
 
 ```bash
 # Your server calls your contract to confirm completion
-torramd tx wasm execute $CONTRACT_ADDR \
+./torramd tx wasm execute $CONTRACT_ADDR \
   '{"confirm_transfer":{"transfer_id":"123","bitcoin_funding_tx":"abc...","bitcoin_recipient_tx":"def...","bitcoin_change_tx":"ghi..."}}' \
   --from server-key \
   --keyring-backend test \
   --chain-id torram \
   --gas auto \
-  --node tcp://34.57.91.248:26657
+  --node tcp://34.57.91.248:26657 \
+  --sign-mode amino-json
 ```
 
 ---
@@ -215,7 +260,7 @@ torramd tx wasm execute $CONTRACT_ADDR \
 ### **Token Management**
 ```bash
 # Create new token
-torramd tx tsb create-token \
+./torramd tx tsb create-token \
   --token-id="TOKEN" \
   --amount=1000000 \
   --type-code=0 \
@@ -229,7 +274,7 @@ torramd tx tsb create-token \
   --node tcp://34.57.91.248:26657
 
 # Transfer tokens
-torramd tx tsb transfer-token TOKEN recipient-address amount \
+./torramd tx tsb transfer-token TOKEN recipient-address amount \
   --from your-key \
   --chain-id torram \
   --node tcp://34.57.91.248:26657 \
@@ -242,29 +287,40 @@ torramd tx tsb transfer-token TOKEN recipient-address amount \
 ### **Token Information Queries**
 ```bash
 # Get specific token details
-torramd query tsb token-balance --token-id TOKEN --owner owner-address --node tcp://34.57.91.248:26657
+./torramd query tsb token-balance --token-id TOKEN --owner owner-address --node tcp://34.57.91.248:26657
 
 # Check specific token balance for an address
-torramd query tsb token-balance --token-id TOKEN --owner owner-address --node tcp://34.57.91.248:26657
+./torramd query tsb token-balance --token-id TOKEN --owner owner-address --node tcp://34.57.91.248:26657
 
 # Get token operations for a specific token
-torramd query wasm contract-state smart CONTRACT_ADDRESS '{"get_token_operations":{"token_id":"TOKEN"}}' --node tcp://34.57.91.248:26657
+./torramd query wasm contract-state smart CONTRACT_ADDRESS '{"get_token_operations":{"token_id":"TOKEN"}}' --node tcp://34.57.91.248:26657
 ```
 
 ### **Smart Contract Operations**
 ```bash
-# Deploy contract
-torramd tx wasm store contract.wasm \
-  --from key \
+# Deploy contract (use async for larger files)
+./torramd tx wasm store contract.wasm \
+  --from my-key \
   --keyring-backend test \
   --chain-id torram \
   --gas 3000000 \
   --fees 1000torram \
   --node tcp://34.57.91.248:26657 \
-  --broadcast-mode sync
+  --home /home/gobishanthan/.torramd \
+  --sign-mode amino-json \
+  --broadcast-mode async \
+  -y
 
-torramd tx wasm instantiate CODE_ID '{}' \
-  --from key \
+# Check deployment status (for async transactions)
+./torramd query tx TRANSACTION_HASH --node tcp://34.57.91.248:26657
+
+# List all deployed contracts
+./torramd query wasm list-code --node tcp://34.57.91.248:26657
+
+# Instantiate contract (replace CODE_ID with actual ID)
+./torramd tx wasm instantiate CODE_ID \
+  '{"admin":"your-address","other_field":"value"}' \
+  --from my-key \
   --keyring-backend test \
   --chain-id torram \
   --label "Contract Label" \
@@ -273,21 +329,165 @@ torramd tx wasm instantiate CODE_ID '{}' \
   --gas-adjustment 1.3 \
   --fees 1000torram \
   --node tcp://34.57.91.248:26657 \
-  --broadcast-mode sync
+  --home /home/gobishanthan/.torramd \
+  --sign-mode amino-json \
+  --broadcast-mode async \
+  -y
 
 # Execute contract
-torramd tx wasm execute CONTRACT_ADDR 'EXECUTE_MSG' \
-  --from key \
+./torramd tx wasm execute CONTRACT_ADDR 'EXECUTE_MSG' \
+  --from my-key \
   --keyring-backend test \
   --chain-id torram \
   --gas auto \
-  --node tcp://34.57.91.248:26657
+  --node tcp://34.57.91.248:26657 \
+  --sign-mode amino-json
 
 # Query contract
-torramd query wasm contract-state smart CONTRACT_ADDR 'QUERY_MSG' --node tcp://34.57.91.248:26657
+./torramd query wasm contract-state smart CONTRACT_ADDR 'QUERY_MSG' --node tcp://34.57.91.248:26657
 
 # Check contract info
-torramd query wasm contract CONTRACT_ADDR --node tcp://34.57.91.248:26657
+./torramd query wasm contract CONTRACT_ADDR --node tcp://34.57.91.248:26657
+
+# List contracts instantiated from specific code
+./torramd query wasm list-contract-by-code CODE_ID --node tcp://34.57.91.248:26657
+```
+
+---
+
+## 🔧 Troubleshooting
+
+### **Contract Deployment Issues**
+If you encounter `failed to encode transaction: unable to resolve type URL /cosmwasm.wasm.v1.MsgStoreCode`, add `--sign-mode amino-json` to your wasm transactions:
+
+```bash
+# Use amino-json for all wasm operations
+--sign-mode amino-json
+```
+
+This resolves protobuf encoding compatibility issues between the CLI and network.
+
+### **Network Timeout Issues**
+For larger contract files or unstable connections, use `--broadcast-mode async`:
+
+```bash
+# Use async mode for larger files (recommended for all deployments)
+./torramd tx wasm store contract.wasm \
+  --from my-key \
+  --keyring-backend test \
+  --chain-id torram \
+  --gas 3000000 \
+  --fees 1000torram \
+  --node tcp://34.57.91.248:26657 \
+  --sign-mode amino-json \
+  --broadcast-mode async \
+  -y
+```
+
+**File Size Guidelines:**
+- Files < 200KB: Usually work with sync mode
+- Files > 200KB: Use async mode to avoid timeouts
+- Always use async mode for production deployments
+
+### **Contract Instantiation Issues**
+Many contracts require specific fields in their instantiate message. Common errors and solutions:
+
+```bash
+# Error: missing field `admin`
+# Solution: Add admin field
+'{"admin":"your-address"}'
+
+# Error: missing field `price_oracle` 
+# Solution: Deploy dependencies first, then reference their addresses
+'{"admin":"your-address","price_oracle":"dependency-contract-address"}'
+
+# Error: unknown variant, expected `FunctionA`, `FunctionB`, `FunctionC`
+# The error message shows you exactly what execute functions are available
+```
+
+**General Contract Instantiation Pattern:**
+```bash
+# Start with minimal required fields and add based on error messages
+./torramd tx wasm instantiate CODE_ID \
+  '{"admin":"your-address"}' \
+  --from my-key \
+  --keyring-backend test \
+  --chain-id torram \
+  --label "Contract Name" \
+  --no-admin \
+  --gas auto \
+  --gas-adjustment 1.3 \
+  --fees 1000torram \
+  --node tcp://34.57.91.248:26657 \
+  --home /home/gobishanthan/.torramd \
+  --sign-mode amino-json \
+  --broadcast-mode async \
+  -y
+```
+
+### **Contract Interaction Testing**
+After successful deployment, test your contracts:
+
+```bash
+# Query contract info
+./torramd query wasm contract CONTRACT_ADDRESS --node tcp://34.57.91.248:26657
+
+# Discover available query functions (error messages show available options)
+./torramd query wasm contract-state smart CONTRACT_ADDRESS '{"unknown":{}}' --node tcp://34.57.91.248:26657
+
+# Test discovered query functions
+./torramd query wasm contract-state smart CONTRACT_ADDRESS '{"get_config":{}}' --node tcp://34.57.91.248:26657
+./torramd query wasm contract-state smart CONTRACT_ADDRESS '{"balance":{"address":"your-address"}}' --node tcp://34.57.91.248:26657
+
+# Discover available execute functions (error messages show available options)
+./torramd tx wasm execute CONTRACT_ADDRESS '{"unknown":{}}' \
+  --from my-key \
+  --keyring-backend test \
+  --chain-id torram \
+  --gas auto \
+  --node tcp://34.57.91.248:26657 \
+  --sign-mode amino-json \
+  -y
+
+# Execute discovered functions
+./torramd tx wasm execute CONTRACT_ADDRESS '{"update_config":{"new_value":"123"}}' \
+  --from my-key \
+  --keyring-backend test \
+  --chain-id torram \
+  --gas auto \
+  --gas-adjustment 1.3 \
+  --fees 1000torram \
+  --node tcp://34.57.91.248:26657 \
+  --sign-mode amino-json \
+  -y
+```
+
+### **Oracle Integration Notes**
+- **Built-in Oracle**: Torram has a built-in oracle system for price feeds
+- **Custom Contracts**: Deploy your own contracts for custom data and logic
+- **Function Discovery**: Use error messages to discover available contract functions
+- **Dependencies**: Deploy dependency contracts first, then reference their addresses
+
+### **CLI Binary Usage**
+When using a local binary, always prefix commands with `./`:
+
+```bash
+# Correct
+./torramd tx wasm store contract.wasm
+
+# Incorrect (unless torramd is in PATH)
+torramd tx wasm store contract.wasm
+```
+
+### **Check Deployment Status**
+For async deployments, check transaction status:
+
+```bash
+# Check if async transaction was successful
+./torramd query tx TRANSACTION_HASH --node tcp://34.57.91.248:26657
+
+# List all deployed contracts
+./torramd query wasm list-code --node tcp://34.57.91.248:26657
 ```
 
 ---
@@ -346,13 +546,13 @@ When your contract emits a transfer event, your server receives:
 ### **Transaction Monitoring**
 ```bash
 # Check transaction status
-torramd query tx TRANSACTION_HASH --node tcp://34.57.91.248:26657
+./torramd query tx TRANSACTION_HASH --node tcp://34.57.91.248:26657
 
 # Monitor specific contract
-torramd query txs --events "wasm.contract_address=torram1..." --node tcp://34.57.91.248:26657
+./torramd query txs --events "wasm.contract_address=torram1..." --node tcp://34.57.91.248:26657
 
 # View recent TSB operations
-torramd query tsb recent-transfers --node tcp://34.57.91.248:26657
+./torramd query tsb recent-transfers --node tcp://34.57.91.248:26657
 ```
 
 ---
@@ -364,7 +564,7 @@ torramd query tsb recent-transfers --node tcp://34.57.91.248:26657
 2. **Contract calculates trade** - AMM formula determines output
 3. **Contract emits event** - `tsb_transfer_needed` with swap details
 4. **Automated server sees event** - Extracts recipient and amount
-5. **Server executes transfer** - Calls `torramd tx tsb transfer-token`
+5. **Server executes transfer** - Calls `./torramd tx tsb transfer-token`
 6. **Server confirms completion** - Reports Bitcoin tx IDs to contract
 
 
@@ -380,12 +580,25 @@ torramd query tsb recent-transfers --node tcp://34.57.91.248:26657
 
 ### **Test Flow Checklist**
 - [ ] Create TSB token successfully
-- [ ] Deploy contract that emits events
+- [ ] Deploy contracts with proper dependencies (oracle first, then main contract)
+- [ ] Verify contract instantiation with required fields
+- [ ] Test contract queries and discover available functions
+- [ ] Verify oracle price data (should not be zeros)
+- [ ] Test contract execute functions
 - [ ] Verify WebSocket connection to Torram
 - [ ] Test event parsing in your automated server
 - [ ] Execute test TSB transfer via CLI
 - [ ] Confirm contract receives Bitcoin tx IDs
 - [ ] Monitor transaction completion
+
+### **Contract Debugging Workflow**
+1. **Deploy**: Use async mode for reliable deployment
+2. **Verify**: Check deployment status with transaction hash
+3. **Instantiate**: Include all required fields (check error messages)
+4. **Query**: Test available query functions  
+5. **Execute**: Test available execute functions
+6. **Integrate**: Connect to automation server
+7. **Monitor**: Set up event listening and transaction monitoring
 
 ---
 
