@@ -468,7 +468,28 @@ After successful deployment, test your contracts:
 - **Function Discovery**: Use error messages to discover available contract functions
 - **Dependencies**: Deploy dependency contracts first, then reference their addresses
 
-### **CLI Binary Usage**
+### **Missing WASM Library Dependencies**
+If you encounter library errors when running the CLI:
+
+```bash
+# Error: libwasmvm.so not found or version mismatch
+# Solution: Download the correct wasmvm library
+sudo wget -P /usr/lib https://github.com/CosmWasm/wasmvm/releases/download/v2.1.0/libwasmvm.x86_64.so
+
+# Make it executable
+sudo chmod +x /usr/lib/libwasmvm.x86_64.so
+
+# Create symlink if needed
+sudo ln -sf /usr/lib/libwasmvm.x86_64.so /usr/lib/libwasmvm.so
+```
+
+**Note:** The wasmvm version should match your torramd binary. Check the version in your CLI build info:
+```bash
+./torramd version --long
+# Look for: github.com/CosmWasm/wasmvm/v2@v2.1.4
+```
+
+### **CLI Binary Issues**
 When using a local binary, always prefix commands with `./`:
 
 ```bash
