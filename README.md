@@ -88,8 +88,7 @@ Before you can interact with Torram, you need to create a wallet and get it fund
 # View your wallet address
 ./torramd keys show my-key -a --keyring-backend test
 
-# View your wallet details (including mnemonic for backup)
-./torramd keys show my-key --keyring-backend test
+
 ```
 
 **Important:** Save your mnemonic phrase securely! You'll need it to recover your wallet.
@@ -103,6 +102,7 @@ Before you can interact with Torram, you need to create a wallet and get it fund
 ```bash
 # Check your TORRAM token balance
 ./torramd query bank balances $(./torramd keys show my-key -a --keyring-backend test) --node tcp://34.57.91.248:26657
+
 ```
 
 ### **Step 1: Create Your TSB Token**
@@ -121,7 +121,7 @@ First, create a Bitcoin-secured token using Torram's built-in TSB functionality:
   --chain-id=torram \
   --gas=auto \
   --gas-adjustment=1.3 \
-  --fees=100torram \
+  --fees=20torram \
   --node tcp://34.57.91.248:26657
 ```
 
@@ -151,10 +151,10 @@ Deploy your CosmWasm contract that will emit events for token operations:
   --from my-key \
   --keyring-backend test \
   --chain-id torram \
-  --gas 3000000 \
-  --fees 1000torram \
+  --gas=auto \
+  --fees 50torram \
   --node tcp://34.57.91.248:26657 \
-  --home /home/gobishanthan/.torramd \
+  --home /home/your_username/.torramd \
   --sign-mode amino-json \
   --broadcast-mode async \
   -y
@@ -176,9 +176,9 @@ Deploy your CosmWasm contract that will emit events for token operations:
   --no-admin \
   --gas auto \
   --gas-adjustment 1.3 \
-  --fees 1000torram \
+  --fees 50torram \
   --node tcp://34.57.91.248:26657 \
-  --home /home/gobishanthan/.torramd \
+  --home /home/your_username/.torramd \
   --sign-mode amino-json \
   --broadcast-mode async \
   -y
@@ -270,7 +270,7 @@ Your server reports Bitcoin transaction completion back to your contract:
   --chain-id=torram \
   --gas=auto \
   --gas-adjustment=1.3 \
-  --fees=100torram \
+  --fees=20torram \
   --node tcp://34.57.91.248:26657
 
 # Transfer tokens
@@ -303,10 +303,10 @@ Your server reports Bitcoin transaction completion back to your contract:
   --from my-key \
   --keyring-backend test \
   --chain-id torram \
-  --gas 3000000 \
-  --fees 1000torram \
+    --gas=auto \
+  --fees 50torram \
   --node tcp://34.57.91.248:26657 \
-  --home /home/gobishanthan/.torramd \
+  --home /home/your_username/.torramd \
   --sign-mode amino-json \
   --broadcast-mode async \
   -y
@@ -327,9 +327,9 @@ Your server reports Bitcoin transaction completion back to your contract:
   --no-admin \
   --gas auto \
   --gas-adjustment 1.3 \
-  --fees 1000torram \
+  --fees 50torram \
   --node tcp://34.57.91.248:26657 \
-  --home /home/gobishanthan/.torramd \
+  --home /home/your_username/.torramd \
   --sign-mode amino-json \
   --broadcast-mode async \
   -y
@@ -376,8 +376,8 @@ For larger contract files or unstable connections, use `--broadcast-mode async`:
   --from my-key \
   --keyring-backend test \
   --chain-id torram \
-  --gas 3000000 \
-  --fees 1000torram \
+  --gas=auto \
+  --fees 50torram \
   --node tcp://34.57.91.248:26657 \
   --sign-mode amino-json \
   --broadcast-mode async \
@@ -417,9 +417,9 @@ Many contracts require specific fields in their instantiate message. Common erro
   --no-admin \
   --gas auto \
   --gas-adjustment 1.3 \
-  --fees 1000torram \
+  --fees 50torram \
   --node tcp://34.57.91.248:26657 \
-  --home /home/gobishanthan/.torramd \
+  --home /home/your_username/.torramd \
   --sign-mode amino-json \
   --broadcast-mode async \
   -y
@@ -456,7 +456,7 @@ After successful deployment, test your contracts:
   --chain-id torram \
   --gas auto \
   --gas-adjustment 1.3 \
-  --fees 1000torram \
+  --fees 50torram \
   --node tcp://34.57.91.248:26657 \
   --sign-mode amino-json \
   -y
